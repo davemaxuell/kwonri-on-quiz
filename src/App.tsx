@@ -12,7 +12,7 @@
  * beside Q1 inside corner-bracketed CRT box, chunky O/X push-buttons, stage gems + BOOTH RESET.
  * FORM: Approved Comp A of medium-native-crt-arcade-pixel-glow (seed key 32adb2c5).
  */
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import QRCode from 'qrcode';
 import { QUESTIONS, type OxAnswer } from './data/questions';
 import {
@@ -48,6 +48,7 @@ function readBoothPlays(): number {
 export default function App() {
   const [stageIndex, setStageIndex] = useState(0);
   const [score, setScore] = useState(0);
+  const [displayScore, setDisplayScore] = useState(0);
   const [streak, setStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [records, setRecords] = useState<AnswerRecord[]>([]);
@@ -55,6 +56,7 @@ export default function App() {
     record: AnswerRecord;
     comboBonus: number;
   } | null>(null);
+  const [burstKey, setBurstKey] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
 
   const [crtEnabled, setCrtEnabled] = useState(true);
@@ -64,12 +66,50 @@ export default function App() {
   const [qrOpen, setQrOpen] = useState(false);
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
 
+  const displayScoreRef = useRef(0);
   const totalStages = QUESTIONS.length;
   const currentQuestion = QUESTIONS[stageIndex];
 
   useEffect(() => {
     sfx.setEnabled(sfxEnabled);
   }, [sfxEnabled]);
+
+  // Smooth arcade scoreboard roll-up toward target score
+  useEffect(() => {
+    if (score === 0) {
+      displayScoreRef.current = 0;
+      setDisplayScore(0);
+      return;
+    }
+    const reduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced || displayScoreRef.current === score) {
+      displayScoreRef.current = score;
+      setDisplayScore(score);
+      return;
+    }
+
+    const startVal = displayScoreRef.current;
+    const delta = score - startVal;
+    const duration = 280;
+    const startTime = performance.now();
+    let rafId = 0;
+
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - startTime) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const next = Math.round(startVal + delta * eased);
+      displayScoreRef.current = next;
+      setDisplayScore(next);
+      if (t < 1) {
+        rafId = requestAnimationFrame(tick);
+      }
+    };
+
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, [score]);
 
   useEffect(() => {
     if (!qrOpen || typeof window === 'undefined') return;
@@ -107,6 +147,7 @@ export default function App() {
       setLastFeedback({ record, comboBonus });
 
       if (record.isCorrect) {
+        setBurstKey((k) => k + 1);
         sfx.playCorrect();
       } else {
         sfx.playWrong();
@@ -252,7 +293,13 @@ export default function App() {
             </div>
             <div className="hud-stat">
               <span className="hud-stat-label">SCORE</span>
-              <span className="hud-stat-value">{formatScore(score)}</span>
+              <span
+                className={`hud-stat-value${
+                  displayScore !== score ? ' hud-stat-value--rolling' : ''
+                }`}
+              >
+                {formatScore(displayScore)}
+              </span>
             </div>
           </div>
 
@@ -289,14 +336,28 @@ export default function App() {
 
         {/* Active Quiz Stage OR End Screen */}
         {!isFinished && currentQuestion ? (
-          <section className="stage-main" aria-label="노동법 OX 퀴즈 스테이지">
-            <article className={dialogueBoxClass}>
+          <section className="stage-main" aria-label="권리ON OX 퀴즈 스테이지">
+            <article key={currentQuestion.id} className={`${dialogueBoxClass} stage-enter`}>
               <span className="corner-pixel corner-pixel--tl" aria-hidden="true" />
               <span className="corner-pixel corner-pixel--tr" aria-hidden="true" />
               <span className="corner-pixel corner-pixel--bl" aria-hidden="true" />
               <span className="corner-pixel corner-pixel--br" aria-hidden="true" />
 
               <div className="sprite-stage">
+                {lastFeedback?.record.isCorrect && (
+                  <div key={burstKey} className="pixel-burst" aria-hidden="true">
+                    <span className="score-pop">
+                      +{lastFeedback.record.pointsEarned}
+                      {lastFeedback.comboBonus > 0 ? ' COMBO!' : ''}
+                    </span>
+                    <span className="spark spark--1" />
+                    <span className="spark spark--2" />
+                    <span className="spark spark--3" />
+                    <span className="spark spark--4" />
+                    <span className="spark spark--5" />
+                    <span className="spark spark--6" />
+                  </div>
+                )}
                 <WorkerShieldSprite
                   mood={spriteMood}
                   className={`worker-sprite${
@@ -320,7 +381,11 @@ export default function App() {
                 </span>
               </div>
 
-              <div className="dialogue-content">
+              <div
+                className={`dialogue-content${
+                  lastFeedback ? ' dialogue-content--feedback' : ''
+                }`}
+              >
                 <div className="meta-row">
                   <span className="category-chip">
                     Q{currentQuestion.id} · {currentQuestion.category}
@@ -410,9 +475,13 @@ export default function App() {
             </div>
           </section>
         ) : (
-          <section className="result-stage" aria-label="퀴즈 최종 결과">
+          <section className="result-stage result-enter" aria-label="퀴즈 최종 결과">
             <div className="result-hero">
-              <div className="rank-badge-box">
+              <div
+                className={`rank-badge-box${
+                  rank.grade === 'S' || rank.grade === 'A' ? ' rank-badge-box--top' : ''
+                }`}
+              >
                 <CrownSprite className="crown-icon" />
                 <span className="rank-grade">{rank.grade}</span>
                 <span className="rank-level">{rank.levelLabel}</span>
@@ -431,7 +500,7 @@ export default function App() {
                 </div>
               </div>
 
-              <WorkerShieldSprite mood="victory" className="worker-sprite" />
+              <WorkerShieldSprite mood="victory" className="worker-sprite worker-sprite--victory" />
             </div>
 
             <div className="ledger-head-row">
@@ -440,12 +509,15 @@ export default function App() {
             </div>
 
             <div className="review-ledger" aria-label="문항별 권리 해설 복습">
-              {QUESTIONS.map((q) => {
+              {QUESTIONS.map((q, index) => {
                 const rec = records.find((r) => r.questionId === q.id);
                 const isOk = rec?.isCorrect ?? false;
                 return (
                   <div
                     key={q.id}
+                    style={
+                      { '--item-delay': `${Math.min(index, 7) * 32}ms` } as CSSProperties
+                    }
                     className={`review-item${isOk ? '' : ' review-item--wrong'}`}
                   >
                     <div className="review-head">

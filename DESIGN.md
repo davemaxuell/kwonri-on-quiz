@@ -87,7 +87,8 @@ components:
 **Key Characteristics:**
 - Strict 16-color sprite palette over Phosphor Black (`#060811`) and Deep CRT Navy (`#090e21`).
 - Crisp 90-degree stepped pixel corners (`0px` border radius throughout) and hard `px` bevels.
-- Toggleable CRT scanline overlay (`CRT ON/OFF`) and Web Audio 8-bit synthesizer (`SFX ON/OFF`).
+- Toggleable CRT scanline overlay (`CRT ON/OFF`) with subtle sweeping phosphor beam and Web Audio 8-bit synthesizer (`SFX ON/OFF`).
+- Purposeful 16-bit stepped arcade motion: idle sprite breathing/blink, CRT scan-wipe stage entry, transient `+200` pixel spark burst on correct answers, impact rattle on wrong answers, levitating active stage gem, and rolling HUD scoreboard (`prefers-reduced-motion` compliant).
 
 ## Colors
 
