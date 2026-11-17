@@ -8,12 +8,14 @@ import {
   formatStage,
 } from '../src/lib/quizEngine.ts';
 
-test('seed questions contain all 5 valid labor-rights O/X items', () => {
-  assert.equal(QUESTIONS.length, 5);
+test('questions contain all 16 deduplicated O/X items with complete fields', () => {
+  assert.equal(QUESTIONS.length, 16);
   assert.deepEqual(
     QUESTIONS.map((q) => q.answer),
-    ['O', 'X', 'O', 'O', 'O']
+    ['O', 'X', 'O', 'O', 'O', 'O', 'O', 'X', 'X', 'O', 'X', 'X', 'O', 'X', 'X', 'O']
   );
+  const uniquePrompts = new Set(QUESTIONS.map((q) => q.question.trim()));
+  assert.equal(uniquePrompts.size, QUESTIONS.length);
   for (const q of QUESTIONS) {
     assert.ok(q.question.trim().length > 0);
     assert.ok(q.lawRef.trim().length > 0);

@@ -435,11 +435,11 @@ export default function App() {
             </div>
 
             <div className="ledger-head-row">
-              <span className="ledger-title">문항별 노동법 복습 · {totalStages}문항</span>
+              <span className="ledger-title">문항별 권리 해설 복습 · {totalStages}문항</span>
               <span className="ledger-scroll-hint">스크롤하여 전체 보기 ↕</span>
             </div>
 
-            <div className="review-ledger" aria-label="문항별 노동법 해설 복습">
+            <div className="review-ledger" aria-label="문항별 권리 해설 복습">
               {QUESTIONS.map((q) => {
                 const rec = records.find((r) => r.questionId === q.id);
                 const isOk = rec?.isCorrect ?? false;
@@ -492,7 +492,10 @@ export default function App() {
             )}
           </div>
 
-          <div className="gems-track" aria-label="진행 스테이지 보석">
+          <div
+            className={`gems-track${totalStages > 8 ? ' gems-track--compact' : ''}`}
+            aria-label="진행 스테이지 보석"
+          >
             {QUESTIONS.map((q, idx) => {
               const rec = records.find((r) => r.questionId === q.id);
               const status: GemStatus = rec

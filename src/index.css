@@ -630,7 +630,7 @@ a:focus-visible {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 12px 16px;
   padding-top: 10px;
@@ -650,11 +650,20 @@ a:focus-visible {
   gap: 12px;
 }
 
+.gems-track--compact {
+  gap: 6px;
+}
+
 .stage-gem {
   width: 32px;
   height: 32px;
   image-rendering: pixelated;
   transition: transform 0.14s steps(2);
+}
+
+.gems-track--compact .stage-gem {
+  width: 24px;
+  height: 24px;
 }
 
 .stage-gem--current {

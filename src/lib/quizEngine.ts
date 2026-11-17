@@ -52,16 +52,16 @@ export function computeRank(correctCount: number, totalCount: number): RankTier 
     return {
       grade: 'S',
       levelLabel: 'LV.99',
-      title: '노동법 마스터 · 완전 권리ON!',
-      comment: '모든 권리 퀴즈를 완벽하게 뚫었습니다! 어디서 일해도 당당한 에이스!',
+      title: '생활법률 마스터 · 완전 권리ON!',
+      comment: '모든 권리 퀴즈를 완벽하게 뚫었습니다! 어떤 계약 앞에서도 당당한 에이스!',
     };
   }
   if (ratio >= 0.8) {
     return {
       grade: 'A',
       levelLabel: 'LV.75',
-      title: '알바 권리 수호자',
-      comment: '핵심 노동법 감각이 아주 날카롭습니다! 아쉽게 놓친 조항만 딱 챙겨보세요.',
+      title: '생활권리 수호자',
+      comment: '핵심 권리 감각이 아주 날카롭습니다! 아쉽게 놓친 조항만 딱 챙겨보세요.',
     };
   }
   if (ratio >= 0.5) {
@@ -69,7 +69,7 @@ export function computeRank(correctCount: number, totalCount: number): RankTier 
       grade: 'B',
       levelLabel: 'LV.50',
       title: '권리 각성 루키',
-      comment: '기본 감각은 충분해요! 오늘 확인한 조항이 실전 알바 현장의 방패가 됩니다.',
+      comment: '기본 감각은 충분해요! 오늘 확인한 조항이 실전 계약 현장의 방패가 됩니다.',
     };
   }
   return {

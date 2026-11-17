@@ -25,12 +25,10 @@ Unlike dense legal pamphlets or static poster boards, **권리ON** delivers bite
 
 ## Capabilities and Constraints
 - **Quiz flow:** Sequential O/X quiz with immediate O/X feedback and a short legal explanation after each question, followed by a final score summary and full answer review.
-- **Seed Q&A data (5 confirmed items):**
-  1. 2026년 최저임금은 시급 10,320원이다. (O)
-  2. "계약기간 중 퇴사하면 위약금을 낸다"는 조항은 유효하다. (X)
-  3. 4시간을 일하면 30분 이상 쉬는 시간을 받아야 한다. (O)
-  4. 임금은 매달 한 번 이상, 정해진 날짜에 줘야 한다. (O)
-  5. 외국인 근로자도 한국 근로기준법의 보호를 받는다. (O)
+- **Seed & expanded Q&A data (16 deduplicated items in `src/data/questions.ts`):**
+  1–5. Core labor standards & 2026 minimum wage (시급 10,320원, 위약금 조항 무효, 4시간 휴게 30분, 월 1회 정기 임금 지급, 외국인 근로자 보호).
+  6–13. Additional workplace & 권리ON items (권리ON 서비스 안내, 근로계약서 교부, 수습기간 임금, 손해배상 임의공제 금지, 주휴수당, 연차 포기 무효, 경업금지, 퇴직금).
+  14–16. Everyday housing lease items (등기부등본 열람, 전입신고+확정일자 우선변제권, 1년 전월세 계약 시 2년 주장).
 - **Extensible Q&A architecture:** Questions, O/X answers, and explanations live in a clean, structured single source of truth so the user can easily append more Q&As later without touching UI/logic.
 - **Deployment target:** Static/client-side web app (no backend required at this stage), pushed to GitHub (`davemaxuell`) and hosted on Vercel.
 - **Open/undecided facts:** GitHub repository name and visibility (defaulting to a clean name like `kwonri-on-quiz` unless specified), and additional Q&As to be supplied by the user later.
