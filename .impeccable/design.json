@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-17T01:12:00Z",
+  "title": "Design System: 권리ON",
+  "extensions": {
+    "colorMeta": {
+      "bg-crt": { "role": "neutral", "displayName": "CRT Screen Navy", "canonical": "#090e21", "tonalRamp": ["#060811", "#090e21", "#0b1128", "#101836", "#182754", "#2a4ea8", "#98a6c7", "#f4f7ff"] },
+      "cyan-glow": { "role": "primary", "displayName": "Cyan Phosphor Glow", "canonical": "#1ad7e6", "tonalRamp": ["#092b38", "#0e4d61", "#147e99", "#1ad7e6", "#5cecff", "#9ef5ff", "#d4fbff", "#f4f7ff"] },
+      "green-o": { "role": "secondary", "displayName": "Arcade O Green", "canonical": "#2ee55b", "tonalRamp": ["#04190a", "#0e7b34", "#189a45", "#2ee55b", "#5ef083", "#8dffab", "#c6ffd4", "#eaffef"] },
+      "red-x": { "role": "tertiary", "displayName": "Arcade X Red", "canonical": "#d92332", "tonalRamp": ["#2d070b", "#7c111b", "#b01926", "#d92332", "#ef4e5b", "#ff7580", "#ffb3b9", "#ffe5e7"] },
+      "gold-power": { "role": "primary", "displayName": "Power Gold", "canonical": "#fcd31d", "tonalRamp": ["#332200", "#593b00", "#a86e08", "#d99d12", "#fcd31d", "#ffe366", "#fff3a1", "#fffbe0"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Arcade HUD Caps", "purpose": "STAGE, SCORE, 1UP, and hardware toggle labels." },
+      "headline": { "displayName": "Hangul Question Headline", "purpose": "Primary quiz statement and rank title." },
+      "body": { "displayName": "Legal Explanation Body", "purpose": "Plain-Korean statutory takeaways." },
+      "label": { "displayName": "HUD Micro Telemetry", "purpose": "Tracked pixel labels above values." }
+    },
+    "shadows": [
+      { "name": "cabinet-bevel", "value": "0 0 0 4px #060914, 0 0 0 8px #182754, 0 14px 0 4px #04060d", "purpose": "Outer CRT cabinet depth frame." },
+      { "name": "arcade-btn-depth", "value": "0 8px 0 #0e7b34", "purpose": "Physical pixel push-button elevation." }
+    ],
+    "motion": [
+      { "name": "pixel-step", "value": "steps(2)", "purpose": "Snappy retro sprite and button actuation." }
+    ],
+    "breakpoints": [
+      { "name": "mobile", "value": "720px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "O Arcade Buzzer",
+      "kind": "button",
+      "refersTo": "button-o",
+      "description": "Primary O (맞다!) tactile arcade button.",
+      "html": "<button class=\"ds-btn-o\">O 맞다!</button>",
+      "css": ".ds-btn-o { background: #2ee55b; color: #04190a; border: 4px solid #1ad7e6; padding: 14px 18px; font-weight: 700; box-shadow: inset 0 4px 0 #8dffab, 0 8px 0 #0e7b34; transition: transform 0.08s steps(2); } .ds-btn-o:hover { filter: brightness(1.07); transform: translateY(-2px); } .ds-btn-o:active { transform: translateY(5px); box-shadow: inset 0 4px 0 #8dffab, 0 3px 0 #0e7b34; }"
+    },
+    {
+      "name": "X Arcade Buzzer",
+      "kind": "button",
+      "refersTo": "button-x",
+      "description": "Primary X (아니다!) tactile arcade button.",
+      "html": "<button class=\"ds-btn-x\">X 아니다!</button>",
+      "css": ".ds-btn-x { background: #d92332; color: #f4f7ff; border: 4px solid #f97316; padding: 14px 18px; font-weight: 700; box-shadow: inset 0 4px 0 #ff7580, 0 8px 0 #7c111b; transition: transform 0.08s steps(2); } .ds-btn-x:hover { filter: brightness(1.07); transform: translateY(-2px); } .ds-btn-x:active { transform: translateY(5px); box-shadow: inset 0 4px 0 #ff7580, 0 3px 0 #7c111b; }"
+    },
+    {
+      "name": "CRT Dialogue Box",
+      "kind": "card",
+      "refersTo": "dialogue-box",
+      "description": "Stepped pixel corner-framed question and explanation stage.",
+      "html": "<div class=\"ds-dialogue\">Q1. 2026년 최저임금은 시급 10,320원이다.</div>",
+      "css": ".ds-dialogue { background: #101836; color: #f4f7ff; border: 4px solid #1ad7e6; padding: 24px 30px; box-shadow: inset 0 0 0 4px #090e21, inset 0 0 0 6px #1d5ce5, 0 8px 0 #050814; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Luminous 16-Color Booth Cabinet",
+    "overview": "권리ON turns a labor-rights booth into a crisp phosphor-black CRT arcade cabinet built around an immediate Question 1 RPG/quiz dialogue frame, oversized tactile O and X push-buttons, faceted diamond stage gems, and instant booth turnover controls.",
+    "keyCharacteristics": [
+      "Strict 16-color sprite palette over Phosphor Black (#060811) and Deep CRT Navy (#090e21).",
+      "Crisp 90-degree stepped pixel corners (0px border radius throughout) and hard px bevels.",
+      "Toggleable CRT scanline overlay (CRT ON/OFF) and Web Audio 8-bit synthesizer (SFX ON/OFF)."
+    ],
+    "rules": [
+      { "name": "The Power-Gold Reserve Rule", "body": "Gold (#fcd31d) marks only scores, active progress, rank crests, and primary advancement/reset buttons.", "section": "colors" },
+      { "name": "The Polarity Law", "body": "Green (#2ee55b) owns O and right verdicts; Red (#d92332) owns X and wrong verdicts.", "section": "colors" }
+    ],
+    "dos": [
+      "Do keep O and X buzzers large, side-by-side, and free of line-wrapping (white-space: nowrap).",
+      "Do preserve CRT ON/OFF and SFX ON/OFF controls in the top HUD for bright booths and quiet spaces.",
+      "Do keep 1-tap BOOTH RESET accessible in both the bottom booth strip and end screen."
+    ],
+    "donts": [
+      "Don't introduce soft rounded corners (border-radius > 0), gradients-as-text, or off-palette hues.",
+      "Don't obscure Hangul explanations with opaque scanlines — keep scanline opacity subtle (0.24).",
+      "Don't let the desktop result screen overflow 800px outer viewport height."
+    ]
+  }
+}
